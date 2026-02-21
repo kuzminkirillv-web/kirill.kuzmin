@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kirill Kuzmin — B2B Sales & BizDev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080808;
+      --surface:   #111111;
+      --surface2:  #191919;
+      --border:    #2a2a2a;
+      --text:      #e6edf3;
+      --muted:     #8b949e;
+      --accent:    #c9a84c;
+      --accent-l:  #e8c96a;
+      --radius:    12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s ease, padding 0.3s ease, box-shadow 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(13,17,23,0.92);
+      backdrop-filter: blur(12px);
+      padding: 14px 60px;
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--accent);
+      letter-spacing: 0.03em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 60px 80px;
+      gap: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .hero-text { max-width: 560px; }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.12;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-roles {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 28px;
+    }
+    .hero-role-tag {
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+    .hero-desc {
+      color: var(--muted);
+      font-size: 1.05rem;
+      font-weight: 300;
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-block;
+      padding: 13px 28px;
+      background: var(--accent);
+      color: #0d1117;
+      font-weight: 600;
+      font-size: 0.88rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-l); transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-block;
+      padding: 13px 28px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.88rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: border-color 0.25s, background 0.25s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .hero-photo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .photo-frame {
+      position: relative;
+      width: 380px; height: 460px;
+    }
+    .photo-frame::before {
+      content: '';
+      position: absolute;
+      top: 18px; left: 18px; right: -18px; bottom: -18px;
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: var(--radius);
+      z-index: 0;
+    }
+    .photo-frame img {
+      position: relative;
+      z-index: 1;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: var(--radius);
+      filter: grayscale(20%);
+      transition: filter 0.4s ease;
+    }
+    .photo-frame img:hover { filter: grayscale(0%); }
+    .photo-badge {
+      position: absolute;
+      bottom: -20px; left: -20px;
+      z-index: 2;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .badge-icon { font-size: 1.5rem; }
+    .badge-label { font-size: 0.72rem; color: var(--muted); }
+    .badge-value { font-size: 1rem; font-weight: 600; color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 60px; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      margin-bottom: 56px;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -12px; left: 0;
+      width: 48px; height: 2px;
+      background: var(--accent);
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 60px;
+    }
+
+    /* ── STATS ── */
+    #stats {
+      padding: 60px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-grid {
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 6px; }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--bg); }
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), var(--border));
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 32px;
+      padding-left: 32px;
+      margin-bottom: 52px;
+      position: relative;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -4px; top: 10px;
+      width: 9px; height: 9px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+    }
+    .timeline-date {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+      padding-top: 4px;
+      line-height: 1.4;
+    }
+    .timeline-date strong { display: block; color: var(--accent); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .exp-card:hover {
+      border-color: rgba(201,168,76,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+    .exp-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+    .exp-company { font-size: 0.78rem; color: var(--accent); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+    .exp-role {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .exp-bullets { list-style: none; margin-bottom: 20px; }
+    .exp-bullets li {
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 4px 0 4px 18px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-size: 0.75rem;
+    }
+    .exp-result {
+      background: rgba(201,168,76,0.06);
+      border-left: 2px solid var(--accent);
+      padding: 10px 16px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .exp-result strong { color: var(--accent); }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--surface); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    .skill-group h3 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.82rem;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: border-color 0.25s, color 0.25s, transform 0.2s;
+      cursor: default;
+    }
+    .skill-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--bg); }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .edu-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-3px); }
+    .edu-degree-type {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .edu-school {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .edu-field { font-size: 0.88rem; color: var(--muted); margin-bottom: 12px; }
+    .edu-year {
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+    .edu-honor {
+      display: inline-block;
+      font-size: 0.72rem;
+      color: var(--accent);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 2px 10px;
+      border-radius: 100px;
+      margin-left: 8px;
+    }
+
+    /* ── LANGUAGES ── */
+    .lang-strip {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-top: 56px;
+    }
+    .lang-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 20px;
+    }
+    .lang-name { font-weight: 500; font-size: 0.9rem; }
+    .lang-level {
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: rgba(201,168,76,0.1);
+      padding: 2px 10px;
+      border-radius: 100px;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--surface); }
+    .contact-inner {
+      max-width: 700px; margin: 0 auto;
+      text-align: center;
+    }
+    .contact-inner .section-label { display: block; }
+    .contact-inner .section-title::after { left: 50%; transform: translateX(-50%); }
+    .contact-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 44px;
+      font-weight: 300;
+    }
+    .contact-links {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      justify-content: center;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 24px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: border-color 0.25s, color 0.25s, transform 0.2s, box-shadow 0.2s;
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .contact-link svg { flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 28px 60px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { gap: 20px; }
+      #hero { grid-template-columns: 1fr; padding: 100px 24px 60px; text-align: center; }
+      .hero-roles { justify-content: center; }
+      .hero-ctas { justify-content: center; }
+      .hero-photo-wrap { order: -1; }
+      .photo-frame { width: 260px; height: 320px; }
+      .photo-badge { display: none; }
+      section { padding: 70px 24px; }
+      .divider { margin: 0 24px; }
+      #stats { padding: 50px 24px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+      .timeline-item { grid-template-columns: 1fr; gap: 12px; }
+      .timeline::before { left: 4px; }
+      .timeline-item { padding-left: 28px; }
+      .skills-grid { grid-template-columns: 1fr; gap: 28px; }
+      .edu-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">KK</a>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="hero-tag">Open to opportunities · Amsterdam</div>
+    <h1 class="hero-name">Kirill<br><span>Kuzmin</span></h1>
+    <div class="hero-roles">
+      <span class="hero-role-tag">B2B Sales</span>
+      <span class="hero-role-tag">BizDev</span>
+      <span class="hero-role-tag">Key Account Manager</span>
+      <span class="hero-role-tag">Customer Success</span>
+    </div>
+    <p class="hero-desc">
+      Business development professional with a track record of building enterprise client portfolios, managing P&amp;L, and driving measurable revenue growth across SaaS and EdTech markets.
+    </p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">Get in Touch</a>
+      <a href="#experience" class="btn-outline">View Experience</a>
+    </div>
+  </div>
+
+  <div class="hero-photo-wrap">
+    <div class="photo-frame">
+      <img src="photo.jpg" alt="Kirill Kuzmin" />
+      <div class="photo-badge">
+        <div class="badge-icon">📍</div>
+        <div>
+          <div class="badge-label">Based in</div>
+          <div class="badge-value">Amsterdam</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="stat-item reveal">
+      <div class="stat-num" data-target="70">0</div>
+      <div class="stat-label">Projects Acquired</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-num" data-target="85">0</div>
+      <div class="stat-label">% Retention Rate YoY</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-num" data-target="12">0</div>
+      <div class="stat-label">% Avg Monthly Portfolio Growth</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-num" data-target="400">0</div>
+      <div class="stat-label">Decision-Maker Contacts Found</div>
+    </div>
+  </div>
+</div>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">Career</div>
+    <h2 class="section-title">Work Experience</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">
+          <strong>Current</strong>
+          May 2024 — Present
+        </div>
+        <div class="exp-card">
+          <div class="exp-company">IMS · Marketing B2B SaaS</div>
+          <div class="exp-role">Business Manager</div>
+          <ul class="exp-bullets">
+            <li>Acquiring enterprise clients with annual contracts up to 60M RUB</li>
+            <li>Growing and retaining client projects post-onboarding; upsells and complex account management</li>
+            <li>Leading cross-functional teams of 3–5 in indirect management</li>
+            <li>Co-launching new products alongside the product team</li>
+            <li>Optimising supplier relationships — reduced costs by 12% in month one</li>
+            <li>Full ownership of P&amp;L and unit economics across all projects</li>
+          </ul>
+          <div class="exp-result">
+            <strong>Results:</strong> 70+ projects acquired · Portfolio revenue up to 15M RUB/month · <strong>85% Retention Rate</strong> YoY · Avg monthly growth <strong>9–12%</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">
+          <strong>2023–2024</strong>
+          May 2023 — Apr 2024
+        </div>
+        <div class="exp-card">
+          <div class="exp-company">ProductStar (RBC)</div>
+          <div class="exp-role">B2B Sales Manager</div>
+          <ul class="exp-bullets">
+            <li>C-level meetings with HRDs, HRBPs, and C&amp;B managers</li>
+            <li>Designed custom corporate training programs and tailored proposals</li>
+            <li>Ongoing client relationship management and account nurturing</li>
+            <li>Cold prospecting — hypothesis testing across niches, markets, and offers</li>
+          </ul>
+          <div class="exp-result">
+            <strong>Results:</strong> ~1M RUB revenue in first 2 months · <strong>30+ enterprise meetings</strong> · Clients include Avito, Uzum, MTT, EBR &amp; others
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">
+          <strong>2022–2023</strong>
+          Nov 2022 — May 2023
+        </div>
+        <div class="exp-card">
+          <div class="exp-company">ED TECH</div>
+          <div class="exp-role">B2B Sales Manager</div>
+          <ul class="exp-bullets">
+            <li>Decision-maker outreach via email, phone, and social channels</li>
+            <li>Built sales scripts and managed full funnel from cold to close</li>
+            <li>Contract documentation and deal structuring</li>
+          </ul>
+          <div class="exp-result">
+            <strong>Results:</strong> 19 companies signed in 7 months · Avg deal <strong>350K RUB</strong> · 400+ contacts sourced · <strong>120+ advanced</strong> in funnel
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">
+          <strong>Ongoing</strong>
+          Jul 2022 — Present
+        </div>
+        <div class="exp-card">
+          <div class="exp-company">Freelance · TG Development</div>
+          <div class="exp-role">Product / Project Manager</div>
+          <ul class="exp-bullets">
+            <li>Founded and scaled a Telegram bot development venture</li>
+            <li>Team coordination, CJM design, Trello-based project management</li>
+            <li>Partner communications and client success</li>
+          </ul>
+          <div class="exp-result">
+            <strong>Results:</strong> Live product with successful cases in restaurant and service industries
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">Capabilities</div>
+    <h2 class="section-title">Skills & Tools</h2>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <h3>Core Competencies</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Enterprise B2B Acquisition</span>
+          <span class="skill-tag">Full-Cycle Deal Management</span>
+          <span class="skill-tag">Key Account Management</span>
+          <span class="skill-tag">C-Level Negotiations</span>
+          <span class="skill-tag">Proposal & Script Writing</span>
+          <span class="skill-tag">Unit Economics / P&L</span>
+          <span class="skill-tag">New Product Launch</span>
+          <span class="skill-tag">Market Hypothesis Testing</span>
+          <span class="skill-tag">Team Management</span>
+          <span class="skill-tag">Customer Success</span>
+          <span class="skill-tag">Custom Educational Programs</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-1">
+        <h3>Tools & Platforms</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">CRM Systems</span>
+          <span class="skill-tag">YouTrack</span>
+          <span class="skill-tag">Notion</span>
+          <span class="skill-tag">Tilda</span>
+          <span class="skill-tag">Trello</span>
+          <span class="skill-tag">Slack</span>
+          <span class="skill-tag">Google Workspace</span>
+          <span class="skill-tag">Microsoft Office</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Education -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-label">Academic Background</div>
+    <h2 class="section-title">Education</h2>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-degree-type">Master's Degree</div>
+        <div class="edu-school">ITMO University</div>
+        <div class="edu-field">Innovative Entrepreneurship</div>
+        <div class="edu-year">2021 – 2022</div>
+      </div>
+      <div class="edu-card reveal reveal-delay-1">
+        <div class="edu-degree-type">Bachelor's Degree <span class="edu-honor">With Honours</span></div>
+        <div class="edu-school">ITMO University</div>
+        <div class="edu-field">Technology Innovation Management</div>
+        <div class="edu-year">2017 – 2021</div>
+      </div>
+    </div>
+
+    <div class="lang-strip">
+      <div class="lang-item reveal">
+        <div>
+          <div class="lang-name">Russian</div>
+        </div>
+        <span class="lang-level">Native</span>
+      </div>
+      <div class="lang-item reveal reveal-delay-1">
+        <div>
+          <div class="lang-name">Ukrainian</div>
+        </div>
+        <span class="lang-level">Native</span>
+      </div>
+      <div class="lang-item reveal reveal-delay-2">
+        <div>
+          <div class="lang-name">English</div>
+        </div>
+        <span class="lang-level">C1 · Advanced</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="contact-inner">
+    <span class="section-label">Let's connect</span>
+    <h2 class="section-title">Get in Touch</h2>
+    <p class="contact-desc">
+      Open to new opportunities, partnerships, and conversations. Feel free to reach out through any channel below.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:kuzmin.kirill.v@gmail.com" class="contact-link">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        kuzmin.kirill.v@gmail.com
+      </a>
+      <a href="tel:+381621942726" class="contact-link">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 0110 2.18 2 2 0 0112 4v3a2 2 0 01-1.45 1.93A16 16 0 0014.06 12a16 16 0 003.09 3.45A2 2 0 0122 16.92z"/></svg>
+        +381 62 194 27 26
+      </a>
+      <a href="https://t.me/sp4ceacademy" target="_blank" class="contact-link">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.012 9.479c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.08 14.84l-2.95-.924c-.641-.2-.654-.641.136-.953l11.51-4.437c.535-.194 1.003.131.786.722z"/></svg>
+        @sp4ceacademy
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 Kirill Kuzmin · Built with care
+</footer>
+
+<script>
+  // ── Nav scroll behaviour
+  const nav = document.getElementById('nav');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id]');
+
+  window.addEventListener('scroll', () => {
+    // Sticky nav
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+
+    // Active nav link
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 140) current = sec.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // ── Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Counter animation
+  function animateCounter(el, target, duration = 1600) {
+    const start = performance.now();
+    const update = now => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target) + (el.dataset.suffix || '');
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        animateCounter(el, parseInt(el.dataset.target));
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
+</script>
+</body>
+</html>
